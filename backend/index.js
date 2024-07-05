@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
-const userRoute = require("./routes/UserRoute");
+const userRoutes = require("./routes/UserRoutes");
 const cors = require("cors");
 
 const { cloudinaryConnect } = require("./config/cloudinary");
@@ -34,7 +34,7 @@ app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
 
 cloudinaryConnect();
 
-app.use("/api/v1/auth", userRoute);
+app.use("/api/v1/auth", userRoutes);
 
 // default route
 app.get("/", (req, res) => {
