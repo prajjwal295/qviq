@@ -4,6 +4,7 @@ import { additionalDetails } from "../services/operations/authApi";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setSignupData } from "../utils/authSlice";
+import toast from "react-hot-toast";
 
 const AditonalDetails = () => {
   const { token } = useSelector((store) => store.auth);
@@ -26,11 +27,21 @@ const AditonalDetails = () => {
     formData.append("coverPhoto", user.coverPhoto);
     formData.append("contact", user.contact);
 
-    const userData = await additionalDetails(formData, token);
+    try {
+      // Submit form data
+      const userData = await additionalDetails(formData, token);
 
-    if (userData) {
-      dispatch(setSignupData(userData));
-      navigate(`/profile/${userData._id}`);
+      if (userData) {
+        // Dispatch the user data and navigate if successful
+        dispatch(setSignupData(userData));
+        navigate(`/profile/${userData._id}`);
+      }
+    } catch (error) {
+      // Handle errors (e.g., display an error message)
+      console.error("Error submitting additional details:", error);
+      toast.error(
+        "An error occurred while submitting additional details. Please try again."
+      );
     }
   };
 

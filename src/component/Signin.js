@@ -33,24 +33,34 @@ const Signin = () => {
       return;
     }
 
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      user.email,
-      user.password
-    );
+    try {
+      if (!validateEmail(user.email)) {
+        throw new Error("Invalid email format");
+      }
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        user.email,
+        user.password
+      );
+      console.log({ userCredential });
 
-    console.log({ userCredential });
+      // Extract user details and token
+      const userDetails = userCredential.user;
+      const token = await userDetails.getIdToken();
 
-    const userDetails = userCredential.user;
-    const token = userDetails.accessToken;
+      // Call the signup API with user details and token
+      const userData = await signup(user, token);
+      console.log({ userData });
 
-    const userData = await signup(user, token);
-    console.log({ userData });
-
-    if (userData) {
-      dispatch(setToken(token));
-      dispatch(setSignupData(userData.user));
-      navigate("/additionalDetails");
+      if (userData) {
+        dispatch(setToken(token));
+        dispatch(setSignupData(userData.user));
+        navigate("/additionalDetails");
+      }
+    } catch (error) {
+      console.error("Error during sign-up:", error);
+      toast.error("Sign-up failed. Please try again.");
     }
   };
 
@@ -61,24 +71,37 @@ const Signin = () => {
     }
   };
 
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   const handleGoogleSignin = async () => {
-    const result = await signInWithPopup(auth, googleProvider);
-    const token = await result.user.getIdToken();
+    try {
+      // Sign in with Google using a popup
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log(result);
+      const token = await result.user.getIdToken();
 
-    const userData = await signupWithGoogle(token);
+      // Call the API to sign up or log in the user with the obtained token
+      const userData = await signupWithGoogle(token);
 
-    console.log({ userData });
+      console.log({ userData });
 
-    if (userData.type === "login") {
-      dispatch(setToken(token));
-      dispatch(setSignupData(userData.existUser));
-      navigate(`/profile/${userData.existUser._id}`);
-    }
-
-    if (userData.type === "signin") {
-      dispatch(setToken(token));
-      dispatch(setSignupData(userData.user));
-      navigate("/additionalDetails");
+      if (userData.type === "login") {
+        // User exists, handle login
+        dispatch(setToken(token));
+        dispatch(setSignupData(userData.existUser));
+        navigate(`/profile/${userData.existUser._id}`);
+      } else if (userData.type === "signin") {
+        // New user, handle sign-up
+        dispatch(setToken(token));
+        dispatch(setSignupData(userData.user));
+        navigate("/additionalDetails");
+      }
+    } catch (error) {
+      console.error("Error during Google sign-in:", error);
+      toast.error("Google sign-in failed. Please try again.");
     }
   };
 

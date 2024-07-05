@@ -4,10 +4,11 @@ import { setSignupData, setToken } from "../utils/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import google from "../assets/google.png";
+import toast from "react-hot-toast";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../config/Firebase";
 
 const Login = () => {
@@ -22,41 +23,64 @@ const Login = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    const userDetails = await auth.signInWithEmailAndPassword(
-      user.email,
-      user.password
-    );
-    console.log(userDetails);
+    try {
+      // Sign in with email and password
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        user.email,
+        user.password
+      );
+      console.log("User Details:", userCredential);
 
-    // const userDetails = await login(user);
+      // Extract user details
+      const userDetails = userCredential.user;
+      const token = await userDetails.getIdToken();
 
-    // if (userDetails) {
-    //   dispatch(setToken(userDetails.token));
-    //   dispatch(setSignupData(userDetails.user));
-    //  navigate(`/profile/${userDetails.user._id}`);
-    // }
+      // Optionally, you might call an API for additional user data
+      // const userData = await login(user); // Adjust based on your API call
+
+      // Handle the authentication response
+      // Dispatch actions to store token and user data
+      dispatch(setToken(token));
+      dispatch(setSignupData(userDetails));
+
+      // Navigate to the profile or dashboard
+      navigate(`/profile/${userDetails.uid}`);
+    } catch (error) {
+      console.error("Error during Login-in:", error);
+      toast.error(
+        "Login-in failed. Please check your credentials and try again."
+      );
+    }
   };
 
   const handleGoogleSignin = async () => {
-    const result = await signInWithPopup(auth, googleProvider);
-    const token = await result.user.getIdToken();
+    try {
+      // Sign in with Google using a popup
+      const result = await signInWithPopup(auth, googleProvider);
+      const token = await result.user.getIdToken();
 
-    if (result) {
-      const userData = await signupWithGoogle(token);
+      if (result) {
+        // Call the API to sign up or log in the user with the obtained token
+        const userData = await signupWithGoogle(token);
 
-      console.log({ userData });
+        console.log({ userData });
 
-      if (userData.type === "login") {
-        dispatch(setToken(token));
-        dispatch(setSignupData(userData.existUser));
-        navigate(`/profile/${userData.existUser._id}`);
+        if (userData.type === "login") {
+          // User exists, handle login
+          dispatch(setToken(token));
+          dispatch(setSignupData(userData.existUser));
+          navigate(`/profile/${userData.existUser._id}`);
+        } else if (userData.type === "signin") {
+          // New user, handle sign-up
+          dispatch(setToken(token));
+          dispatch(setSignupData(userData.user));
+          navigate("/additionalDetails");
+        }
       }
-
-      if (userData.type === "signin") {
-        dispatch(setToken(token));
-        dispatch(setSignupData(userData.user));
-        navigate("/additionalDetails");
-      }
+    } catch (error) {
+      console.error("Error during Google sign-in:", error);
+      toast.error("Google sign-in failed. Please try again.");
     }
   };
 
