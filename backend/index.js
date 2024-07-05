@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
-const userRoutes = require("./routes/UserRoutes");
+// const userRoutes = require("./routes/UserRoutes");
+const authRoutes = require("./routes/authRoutes");
 const cors = require("cors");
 
 const { cloudinaryConnect } = require("./config/cloudinary");
@@ -19,6 +20,7 @@ const corsOptions = {
     "http://localhost:3000",
     "social-view-762f9.web.app",
     "https://social-view-762f9.firebaseapp.com/",
+    "https://qviq-three.vercel.app",
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -34,7 +36,7 @@ app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
 
 cloudinaryConnect();
 
-app.use("/api/v1/auth", userRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 // default route
 app.get("/", (req, res) => {
