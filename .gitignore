@@ -8,6 +8,8 @@
 
 backend/node_modules
 backend/.env
+backend/config/serviceAccountKey.json
+
 
 # testing
 /coverage
