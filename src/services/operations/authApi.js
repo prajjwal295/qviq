@@ -1,8 +1,6 @@
 import toast from "react-hot-toast";
-import endPoints from "../apis";
 import { apiConnector } from "../apiconnector";
-
-const { SIGNIN_API, UPDATE_PROFILE_API } = endPoints;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const signup = async (userData, token) => {
   const toastId = toast.loading("Loading...");
@@ -25,7 +23,7 @@ export const signup = async (userData, token) => {
   try {
     const response = await apiConnector(
       "POST",
-      "http://localhost:4000/api/v1/auth/signup",
+      `${BASE_URL}/auth/signup`,
       {
         firstName,
         lastName,
@@ -58,40 +56,6 @@ export const signup = async (userData, token) => {
   return data;
 };
 
-export const login = async (user) => {
-  const toastId = toast.loading("Loading...");
-
-  const { email, password } = user;
-
-  let data = null;
-
-  try {
-    const response = await apiConnector(
-      "POST",
-      "http://localhost:4000/api/v1/auth/login",
-      {
-        email,
-        password,
-      }
-    );
-
-    data = response.data;
-    console.log(data);
-
-    console.log("Signup API Response.....", response);
-
-    if (!response.data.success) {
-      throw new Error(response.data.message);
-    }
-
-    toast.success("login Successfull");
-  } catch (error) {
-    console.log("login API ERROR............", error);
-    toast.error("login Failed");
-  }
-  toast.dismiss(toastId);
-  return data;
-};
 
 export const additionalDetails = async (formData, token) => {
   const toastId = toast.loading("Loading...");
@@ -103,7 +67,7 @@ export const additionalDetails = async (formData, token) => {
   try {
     const response = await apiConnector(
       "PUT",
-      "http://localhost:4000/api/v1/auth/updateProfile",
+      `${BASE_URL}/auth/updateProfile`,
       formData,
       {
         Authorization: `Bearer ` + token,
@@ -136,7 +100,7 @@ export const getUserDetails = async (userId) => {
   try {
     const response = await apiConnector(
       "GET",
-      `http://localhost:4000/api/v1/auth/getUserDetails/${userId}`,
+      `${BASE_URL}auth/getUserDetails/${userId}`,
       null
     );
 
@@ -168,7 +132,7 @@ export const signupWithGoogle = async (token) => {
   try {
     const response = await apiConnector(
       "POST",
-      "http://localhost:4000/api/v1/auth/signupWithGoogle",
+      `${BASE_URL}/auth/signupWithGoogle`,
       null,
       {
         Authorization: `Bearer ` + token,
@@ -199,7 +163,7 @@ export const deleteFromMongo = async (token, userId) => {
   try {
     const response = await apiConnector(
       "DELETE",
-      "http://localhost:4000/api/v1/auth/deleteUser",
+      `${BASE_URL}/auth/deleteUser`,
       userId,
       {
         Authorization: `Bearer ` + token,
