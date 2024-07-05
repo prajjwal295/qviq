@@ -7,7 +7,7 @@ const QR = (value) => {
     <div
       style={{ height: "auto", margin: "0 auto", maxWidth: 64, width: "100%" }}
     >
-      <QRCodeSVG value={"Www.google.com"} />,
+      <QRCodeSVG value={"localhost:3000/profile/668832e6a6ba5dad10ce60b5"} />,
     </div>
   );
 };

@@ -1,9 +1,6 @@
 import toast from "react-hot-toast";
 import endPoints from "../apis";
 import { apiConnector } from "../apiconnector";
-import { setToken } from "../../utils/authSlice";
-import { setSignupData } from "../../utils/authSlice";
-import { useState } from "react";
 
 const { SIGNIN_API, UPDATE_PROFILE_API } = endPoints;
 
