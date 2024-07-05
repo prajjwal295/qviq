@@ -59,17 +59,24 @@ const Profile = () => {
 
   return (
     <div className=" mx-auto w-[11/12] p-2 ">
+      {user && (
+        <>
+          <div className="text-4xl font-bold text-white my-8 underline">
+            User Details
+          </div>
+        </>
+      )}
       {user ? (
-        <div className="bg-white rounded-md  w-[1200px] h-full flex flex-col items-center  gap-2">
-          <div className="max-h-[200px] w-[1200px]">
+        <div className="bg-white rounded-md  w-[1200px] h-full flex flex-col items-center  gap-2 max-w-[90vw]">
+          <div className="max-h-[200px] w-[1200px] max-w-[90vw]">
             <img
               src={user?.additionalDetails?.coverPhoto}
               alt="cover"
               className=" max-h-[200px] w-full bg-cover"
             />
           </div>
-          <div className="flex w-full gap-5">
-            <div className="w-[30%] flex flex-col  items-center border-black">
+          <div className="flex w-full gap-5 items-center max-md:flex-col">
+            <div className="flex-[30%] flex flex-col  items-center border-black">
               <div className="rounded-full w-[300px] h-[300px]">
                 <img
                   src={user?.profilePhoto}
@@ -77,17 +84,17 @@ const Profile = () => {
                   className="rounded-full w-[300px] h-[300px] bg-cover"
                 />
               </div>
-              <div className="flex flex-col items-end">
+              <div className="flex flex-col items-center">
                 <h1 className="flex gap-2 text-xl font-semibold">
                   {user?.firstName} {user?.lastName}
                 </h1>
                 <h1>{user?._id}</h1>
               </div>
             </div>
-            <div className="w-[40%]">
-              <h1>Additional Details</h1>
+            <div className="flex-[40%] flex flex-col items-center text-xl  ">
+              <h1 className="underline">Additional Details</h1>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 items-start">
                 <div className="flex gap-2 items-center">
                   <h1 className="text-lg font-bold">Contact Number</h1>
                   <h1>{user?.contact}</h1>
@@ -104,24 +111,24 @@ const Profile = () => {
                   <h1 className="text-lg font-bold">Account Type</h1>
                   <h1>{user?.additionalDetails?.accountType}</h1>
                 </div>
+
+                {token && (
+                  <div className="mt-10">
+                    <button
+                      className="rounded-md p-3 bg-red-600 text-xl font-semibold text-white"
+                      onClick={handleOnClick}
+                    >
+                      Delete Account
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
-            <div className="w-[30%]">
+            <div className="flex-[30%]">
               <QR
                 value={"http://localhost:3000/profile/6685a7e8607ca98b8153d6a1"}
               />
             </div>
-
-            {token && (
-              <div>
-                <button
-                  className="rounded-md p-3 bg-red-900 text-xl font-semibold"
-                  onClick={handleOnClick}
-                >
-                  Delete Account
-                </button>
-              </div>
-            )}
           </div>
         </div>
       ) : (
