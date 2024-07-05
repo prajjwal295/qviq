@@ -1,9 +1,8 @@
 const express = require("express");
 const app = express();
-
-const userRoutes = require("./routes/UserRoute");
 const database = require("./config/database");
 const cookieParser = require("cookie-parser");
+const userRoutes = require("./routes/UserRoute");
 const cors = require("cors");
 
 const { cloudinaryConnect } = require("./config/cloudinary");
