@@ -56,7 +56,6 @@ export const signup = async (userData, token) => {
   return data;
 };
 
-
 export const additionalDetails = async (formData, token) => {
   const toastId = toast.loading("Loading...");
 
@@ -94,18 +93,18 @@ export const additionalDetails = async (formData, token) => {
 };
 
 export const getUserDetails = async (userId) => {
+  console.log(`${BASE_URL}/auth/getUserDetails/${userId}`);
   const toastId = toast.loading("Loading...");
   let data = null;
 
   try {
     const response = await apiConnector(
       "GET",
-      `${BASE_URL}auth/getUserDetails/${userId}`,
+      `${BASE_URL}/auth/getUserDetails/${userId}`,
       null
     );
 
     data = response.data.user;
-    console.log(data);
 
     console.log("data fetched API Response.....", response);
 
