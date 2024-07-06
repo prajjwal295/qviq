@@ -23,7 +23,7 @@ const Image = ({ src, alt }) => {
 
   return (
     <div
-      className="w-1/2 h-1/2 overflow-hidden relative flex justify-center items-center mx-auto perspective-1000"
+      className="w-1/2 h-1/2 overflow-hidden relative flex justify-center items-center mx-auto perspective-1000 "
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
