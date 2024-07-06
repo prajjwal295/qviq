@@ -46,11 +46,11 @@ const {
 
 const { auth } = require("./middleware/auth");
 
-app.post("/api/v1/auth/signup", auth, signup);
-app.post("/api/v1/auth/signupWithGoogle", auth, signupWithGoogle);
-app.put("/api/v1/auth/updateProfile", auth, updateProfile);
-app.get("/api/v1/auth/getUserDetails/:id", getUserData);
-app.delete("/api/v1/auth/deleteUser", auth, deleteUser);
+app.post("/auth/signup", auth, signup);
+app.post("/auth/signupWithGoogle", auth, signupWithGoogle);
+app.put("/auth/updateProfile", auth, updateProfile);
+app.get("/auth/getUserDetails/:id", getUserData);
+app.delete("/auth/deleteUser", auth, deleteUser);
 
 // default route
 app.get("/", (req, res) => {
