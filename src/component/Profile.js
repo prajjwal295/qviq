@@ -97,11 +97,11 @@ const Profile = () => {
               <div className="flex flex-col gap-2 items-start">
                 <div className="flex gap-2 items-center">
                   <h1 className="text-lg font-bold">Contact Number</h1>
-                  <h1>{user?.contact}</h1>
+                  <h1>{user?.additionalDetails?.contact}</h1>
                 </div>
                 <div className="flex gap-2 items-center">
                   <h1 className="text-lg font-bold">Gender</h1>
-                  <h1>{user?.additionalDetails?.Gender}</h1>
+                  <h1>{user?.additionalDetails?.gender}</h1>
                 </div>
                 <div className="flex gap-2 items-center">
                   <h1 className="text-lg font-bold">Email</h1>
