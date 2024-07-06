@@ -15,7 +15,7 @@ const QR = (value) => {
         }}
       >
         <QRCodeSVG
-          value={`https://qviq-three.vercel.app/profile/:${value.value}`}
+          value={`https://qviq-three.vercel.app/profile/${value.value}`}
         />
         ,
       </div>
