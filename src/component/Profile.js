@@ -125,9 +125,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="flex-[30%]">
-              <QR
-                value={"http://localhost:3000/profile/6685a7e8607ca98b8153d6a1"}
-              />
+              <QR value={userId} />
             </div>
           </div>
         </div>
