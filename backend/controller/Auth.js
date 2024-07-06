@@ -146,19 +146,21 @@ exports.updateProfile = async (req, res) => {
       });
     }
 
+    console.log({ gender });
+    console.log({ contact });
+
     const profileId = userDetails.additionalDetails;
 
     const updatedProfile = await Profile.findByIdAndUpdate(
-      { _id: profileId },
-      { coverPhoto: cover.secure_url },
-      { contact: contact },
-      { accountType: accountType },
+      profileId, // ID of the profile to update
       {
+        coverPhoto: cover.secure_url,
+        contact: contact,
+        accountType: accountType,
         gender: gender,
       },
       { new: true }
     );
-
     const userData = await User.findOne({ uid: uid })
       .populate("additionalDetails")
       .exec();
