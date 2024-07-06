@@ -6,7 +6,7 @@ const cors = require("cors");
 
 const { cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
-const authRoutes = require("./routes/authRoutes");
+// const  authRoutes = require("./routes/authRoutes");
 
 require("dotenv").config();
 const Port = process.env.PORT || 4000;
@@ -35,7 +35,23 @@ app.use(fileUpload({ useTempFiles: true, tempFileDir: "/tmp" }));
 
 cloudinaryConnect();
 
-app.use("/api/v1/auth", authRoutes);
+// app.use("/api/v1/auth", authRoutes);
+
+const {
+  signup,
+  updateProfile,
+  getUserData,
+  signupWithGoogle,
+  deleteUser,
+} = require("./controller/Auth");
+
+const { auth } = require("./middleware/auth");
+
+app.post("/api/v1/auth/signup", auth, signup);
+app.post("/api/v1/auth/signupWithGoogle", auth, signupWithGoogle);
+app.put("/api/v1/auth/updateProfile", auth, updateProfile);
+app.get("/api/v1/auth/getUserDetails/:id", getUserData);
+app.delete("/api/v1/auth/deleteUser", auth, deleteUser);
 
 // default route
 app.get("/", (req, res) => {
