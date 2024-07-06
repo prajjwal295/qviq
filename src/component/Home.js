@@ -7,7 +7,7 @@ const Home = () => {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col md:flex-row max-w-[100vw] min-w-[100vw]">
-      <div className="flex flex-col md:flex-[50%] justify-center items-center font-enter w-full md:w-[50vw] md:mx-8 border-2 border-black">
+      <div className="flex flex-col md:flex-[50%] justify-center items-center font-enter w-full md:w-[50vw] md:mx-8 border-black">
         <div className="flex flex-col gap-6 h-full md:h-[100vh] items-center justify-center mx-auto text-[#d2e823] font-enter border-black-solid p-4">
           <div className="text-3xl md:text-5xl font-extrabold my-10 text-center">
             Welcome to Social View
@@ -28,7 +28,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-center w-full md:w-[50vw] h-[80vh] md:h-[100vh] border-2 border-black">
+      <div className="flex items-center justify-center w-full md:w-[50vw] h-[80vh] md:h-[100vh]  border-black">
         <Image src={insta} alt="animated image" />
       </div>
     </div>
