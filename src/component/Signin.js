@@ -24,6 +24,7 @@ const Signin = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [imageSrc, setImageSrc] = useState(null);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -66,6 +67,11 @@ const Signin = () => {
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImageSrc(reader.result);
+    };
     if (file) {
       setUser({ ...user, profilePhoto: file });
     }
@@ -213,7 +219,7 @@ const Signin = () => {
             {user.profilePhoto && (
               <div className="mt-2">
                 <img
-                  src={user.profilePhoto}
+                  src={imageSrc}
                   alt="Display Picture"
                   className="w-full h-full"
                 />

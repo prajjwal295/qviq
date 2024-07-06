@@ -11,6 +11,8 @@ const AditonalDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [imageSrc, setImageSrc] = useState(null);
+
   const [user, setUser] = useState({
     gender: "",
     accountType: "",
@@ -47,6 +49,11 @@ const AditonalDetails = () => {
 
   const handleCoverChange = (e) => {
     const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImageSrc(reader.result);
+    };
     if (file) {
       setUser({ ...user, coverPhoto: file });
     }
@@ -75,7 +82,7 @@ const AditonalDetails = () => {
           {user.coverPhoto && (
             <div className="mt-2">
               <img
-                src={user.coverPhoto}
+                src={imageSrc}
                 alt="Display Picture"
                 className="w-20 h-20 rounded-full"
               />
