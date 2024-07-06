@@ -1,6 +1,8 @@
 import toast from "react-hot-toast";
 import { apiConnector } from "../apiconnector";
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+const BASE_URL = "https://qviq-1.onrender.com";
 
 export const signup = async (userData, token) => {
   const toastId = toast.loading("Loading...");
