@@ -94,12 +94,12 @@ const Signin = () => {
 
       console.log({ userData });
 
-      if (userData.type === "login") {
+      if (userData.type == "login") {
         // User exists, handle login
         dispatch(setToken(token));
         dispatch(setSignupData(userData.existUser));
         navigate(`/profile/${userData.existUser._id}`);
-      } else if (userData.type === "signin") {
+      } else if (userData.type == "signin") {
         // New user, handle sign-up
         dispatch(setToken(token));
         dispatch(setSignupData(userData.user));

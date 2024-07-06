@@ -48,10 +48,10 @@ exports.signupWithGoogle = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "User registered successfully",
+      message: "new User registered successfully",
       user,
       uid,
-      tpye: "signin",
+      type: "signin",
     });
   } catch (err) {
     console.log(err);
@@ -225,7 +225,7 @@ exports.getUserData = async (req, res) => {
       });
     }
 
-     uid =  new mongoose.Types.ObjectId(id);
+    uid = new mongoose.Types.ObjectId(id);
 
     const user = await User.findById(uid).populate("additionalDetails").exec();
 
